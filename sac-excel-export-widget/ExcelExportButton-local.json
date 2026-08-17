@@ -1,0 +1,75 @@
+{
+  "name": "Excel Export Button (Local)",
+  "description": "Local-development copy of the Excel export button. Serve this folder over HTTP and keep ignoreIntegrity true.",
+  "eula": "EULA",
+  "vendor": "Vishal",
+  "license": "MIT",
+  "id": "com.vishal.sac.excelexportbutton.local",
+  "newInstancePrefix": "ExcelExportButton",
+  "version": "1.0.0",
+  "icon": "",
+  "supportsAutoResize": true,
+  "webcomponents": [
+    {
+      "kind": "main",
+      "tag": "com-vishal-sac-excelexportbutton",
+      "url": "http://localhost:8080/webcomponents/excel-export-button.js",
+      "integrity": "",
+      "ignoreIntegrity": true
+    },
+    {
+      "kind": "styling",
+      "tag": "com-vishal-sac-excelexportbutton-styling",
+      "url": "http://localhost:8080/webcomponents/excel-export-styling.js",
+      "integrity": "",
+      "ignoreIntegrity": true
+    }
+  ],
+  "properties": {
+    "buttonText": { "type": "string", "default": "Export to Excel" },
+    "fileName": { "type": "string", "default": "SAC_Export.xlsx" },
+    "sheetName": { "type": "string", "default": "Export" },
+    "includeTotals": { "type": "boolean", "default": true },
+    "autoExportOnClick": { "type": "boolean", "default": true },
+    "backgroundColor": { "type": "string", "default": "#0a6ed1" },
+    "textColor": { "type": "string", "default": "#ffffff" }
+  },
+  "dataBindings": {
+    "myDataSource": {
+      "feeds": [
+        { "id": "dimensions", "description": "Dimensions", "type": "dimension" },
+        { "id": "measures", "description": "Measures", "type": "mainStructureMember" }
+      ]
+    }
+  },
+  "methods": {
+    "exportToExcel": { "description": "Export all bound data.", "parameters": [] },
+    "downloadXLSX": {
+      "description": "Export selected dimensions and measures.",
+      "parameters": [
+        { "name": "dimensionsToExtract", "type": "string[]" },
+        { "name": "measuresToExtract", "type": "string[]" },
+        { "name": "headers", "type": "string[]" },
+        { "name": "measureMapping", "type": "string[]" }
+      ]
+    },
+    "exportJson": {
+      "description": "Export JSON text.",
+      "parameters": [{ "name": "jsonText", "type": "string" }]
+    },
+    "setButtonText": {
+      "parameters": [{ "name": "text", "type": "string" }]
+    },
+    "setFileName": {
+      "parameters": [{ "name": "fileName", "type": "string" }]
+    },
+    "setSheetName": {
+      "parameters": [{ "name": "sheetName", "type": "string" }]
+    }
+  },
+  "events": {
+    "onClick": { "description": "Fired when the export button is clicked." },
+    "onExportComplete": { "description": "Fired after download starts." },
+    "onExportError": { "description": "Fired when export fails." }
+  }
+}

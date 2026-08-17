@@ -1,0 +1,131 @@
+{
+  "name": "Excel Export Button",
+  "description": "Custom widget button that exports bound SAC data to an Excel (.xlsx) file.",
+  "eula": "EULA",
+  "vendor": "Vishal",
+  "license": "MIT",
+  "id": "com.vishal.sac.excelexportbutton",
+  "newInstancePrefix": "ExcelExportButton",
+  "version": "1.0.0",
+  "icon": "",
+  "supportsAutoResize": true,
+  "webcomponents": [
+    {
+      "kind": "main",
+      "tag": "com-vishal-sac-excelexportbutton",
+      "url": "https://YOUR-HOST/sac-excel-export-widget/webcomponents/excel-export-button.js",
+      "integrity": "",
+      "ignoreIntegrity": true
+    },
+    {
+      "kind": "styling",
+      "tag": "com-vishal-sac-excelexportbutton-styling",
+      "url": "https://YOUR-HOST/sac-excel-export-widget/webcomponents/excel-export-styling.js",
+      "integrity": "",
+      "ignoreIntegrity": true
+    }
+  ],
+  "properties": {
+    "buttonText": {
+      "type": "string",
+      "description": "Label shown on the export button",
+      "default": "Export to Excel"
+    },
+    "fileName": {
+      "type": "string",
+      "description": "Downloaded Excel file name",
+      "default": "SAC_Export.xlsx"
+    },
+    "sheetName": {
+      "type": "string",
+      "description": "Worksheet name inside the workbook",
+      "default": "Export"
+    },
+    "includeTotals": {
+      "type": "boolean",
+      "description": "Append a totals row for numeric measure columns",
+      "default": true
+    },
+    "autoExportOnClick": {
+      "type": "boolean",
+      "description": "When true, clicking the widget button exports immediately. Set false to export only from story script.",
+      "default": true
+    },
+    "backgroundColor": {
+      "type": "string",
+      "description": "Button background color",
+      "default": "#0a6ed1"
+    },
+    "textColor": {
+      "type": "string",
+      "description": "Button text color",
+      "default": "#ffffff"
+    }
+  },
+  "dataBindings": {
+    "myDataSource": {
+      "feeds": [
+        {
+          "id": "dimensions",
+          "description": "Dimensions",
+          "type": "dimension"
+        },
+        {
+          "id": "measures",
+          "description": "Measures",
+          "type": "mainStructureMember"
+        }
+      ]
+    }
+  },
+  "methods": {
+    "exportToExcel": {
+      "description": "Export all currently bound dimensions and measures to Excel.",
+      "parameters": [],
+      "returnType": ""
+    },
+    "downloadXLSX": {
+      "description": "Export selected dimensions and measures to Excel.",
+      "parameters": [
+        { "name": "dimensionsToExtract", "type": "string[]", "description": "Dimension technical names" },
+        { "name": "measuresToExtract", "type": "string[]", "description": "Measure technical names" },
+        { "name": "headers", "type": "string[]", "description": "Column headers in the Excel file" },
+        { "name": "measureMapping", "type": "string[]", "description": "Entries of measureId:HeaderName" }
+      ],
+      "returnType": ""
+    },
+    "exportJson": {
+      "description": "Export a JSON payload with headers and rows arrays.",
+      "parameters": [
+        { "name": "jsonText", "type": "string", "description": "JSON string: {\"headers\":[],\"rows\":[]} or an array of objects" }
+      ],
+      "returnType": ""
+    },
+    "setButtonText": {
+      "description": "Change the button label at runtime.",
+      "parameters": [{ "name": "text", "type": "string" }],
+      "returnType": ""
+    },
+    "setFileName": {
+      "description": "Change the download file name at runtime.",
+      "parameters": [{ "name": "fileName", "type": "string" }],
+      "returnType": ""
+    },
+    "setSheetName": {
+      "description": "Change the worksheet name at runtime.",
+      "parameters": [{ "name": "sheetName", "type": "string" }],
+      "returnType": ""
+    }
+  },
+  "events": {
+    "onClick": {
+      "description": "Fired when the export button is clicked."
+    },
+    "onExportComplete": {
+      "description": "Fired after the Excel file download is triggered."
+    },
+    "onExportError": {
+      "description": "Fired when export fails, for example when no model is bound."
+    }
+  }
+}

@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>SAC Excel Export Button — local demo</title>
+    <style>
+      body { font-family: Arial, sans-serif; margin: 32px; color: #1a1a1a; }
+      com-vishal-sac-excelexportbutton { width: 220px; }
+    </style>
+  </head>
+  <body>
+    <h1>Excel Export Button</h1>
+    <p>This page mocks SAC data binding so you can verify the download outside SAP Analytics Cloud.</p>
+    <com-vishal-sac-excelexportbutton id="exportBtn"></com-vishal-sac-excelexportbutton>
+    <script src="./webcomponents/excel-export-button.js"></script>
+    <script>
+      const widget = document.getElementById("exportBtn");
+      widget.myDataSource = {
+        data: [
+          {
+            dimensions_0: { id: "AMER", label: "AMER" },
+            dimensions_1: { id: "Q1", label: "Q1" },
+            measures_0: { raw: 1200, formatted: "1,200" }
+          },
+          {
+            dimensions_0: { id: "EMEA", label: "EMEA" },
+            dimensions_1: { id: "Q1", label: "Q1" },
+            measures_0: { raw: 980, formatted: "980" }
+          }
+        ],
+        metadata: {
+          dimensions: {
+            dimensions_0: { id: "Region", description: "Region" },
+            dimensions_1: { id: "Date", description: "Date" }
+          },
+          mainStructureMembers: {
+            measures_0: { id: "[Account].[parentId].&[Revenue]", label: "Revenue" }
+          }
+        }
+      };
+      widget.onCustomWidgetAfterUpdate({
+        buttonText: "Export to Excel",
+        fileName: "Demo_Export.xlsx",
+        includeTotals: true
+      });
+    </script>
+  </body>
+</html>
