@@ -4,11 +4,31 @@ Custom widget for **SAP Analytics Cloud** (Optimized Story and Analytic Applicat
 
 The workbook is built in the browser. No ExcelJS/CDN dependency is required, which avoids typical SAC content-security-policy blocks.
 
+## Zip file (upload this to SAC)
+
+**`sac-excel-export-widget/dist/ExcelExportButton.zip`**
+
+That zip is at the repo root path above. Download it from GitHub (open the file → **Download raw file**) or rebuild it:
+
+```bash
+node sac-excel-export-widget/scripts/pack-zip.js
+```
+
+The zip has files at the root (no parent folder), with relative URLs so SAC can host the JavaScript:
+
+- `ExcelExportButton.json`
+- `excel-export-button.js`
+- `excel-export-styling.js`
+- `story-onclick.js`
+
+In SAC: **Stories** (or **Analytic Applications**) → **Custom Widgets** → upload **`ExcelExportButton.zip`**. If your tenant only accepts a JSON file, extract the zip and upload `ExcelExportButton.json` together with the `.js` files, or host the JS files and use the HTTPS URLs in `ExcelExportButton.json`.
+
 ## Contents
 
 | File | Purpose |
 | --- | --- |
-| `sac-excel-export-widget/ExcelExportButton.json` | Widget contribution file to upload in SAC (replace `YOUR-HOST`) |
+| `sac-excel-export-widget/dist/ExcelExportButton.zip` | Ready-to-upload SAC custom widget package |
+| `sac-excel-export-widget/ExcelExportButton.json` | Widget contribution file (HTTPS host URLs; replace `YOUR-HOST`) |
 | `sac-excel-export-widget/ExcelExportButton-local.json` | Same widget, pointed at `http://localhost:8080` |
 | `sac-excel-export-widget/webcomponents/excel-export-button.js` | Main web component |
 | `sac-excel-export-widget/webcomponents/excel-export-styling.js` | Styling panel (button text, colors, file name) |
