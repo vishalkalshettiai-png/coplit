@@ -4,32 +4,44 @@ Custom widget for **SAP Analytics Cloud** (Optimized Story and Analytic Applicat
 
 The workbook is built in the browser. No ExcelJS/CDN dependency is required, which avoids typical SAC content-security-policy blocks.
 
-## Zip file (upload this to SAC)
+## Upload to SAC (two files)
 
-**`sac-excel-export-widget/dist/ExcelExportButton.zip`**
+SAC does **not** accept a single combined zip as the contribution file. Upload JSON first, then the Resource File zip.
 
-That zip is at the repo root path above. Download it from GitHub (open the file → **Download raw file**) or rebuild it:
+1. **JSON upload:** `sac-excel-export-widget/dist/ExcelExportButton.json`  
+   (same file as `sac-excel-export-widget/ExcelExportButton.json`)
+2. **Resource File (.zip) upload:** `sac-excel-export-widget/dist/ExcelExportButton-resources.zip`
+
+If a previous widget upload failed, **delete that custom widget** in SAC, then upload these two files again. The Resource File button appears only after a valid JSON with root-relative URLs (`/excel-export-button.js`) is accepted.
+
+The resource zip contains **only** these files at the zip root (no folders, no JSON, no HTML):
+
+- `excel-export-button.js`
+- `excel-export-styling.js`
+
+Rebuild the artifacts:
 
 ```bash
 node sac-excel-export-widget/scripts/pack-zip.js
 ```
 
-The zip has files at the root (no parent folder), with relative URLs so SAC can host the JavaScript:
+### Why the old zip failed
 
-- `ExcelExportButton.json`
-- `excel-export-button.js`
-- `excel-export-styling.js`
-- `story-onclick.js`
+SAC Resource File zips may include only web-component JavaScript (and optional PNG/JPG icons). They must **not** include:
 
-In SAC: **Stories** (or **Analytic Applications**) → **Custom Widgets** → upload **`ExcelExportButton.zip`**. If your tenant only accepts a JSON file, extract the zip and upload `ExcelExportButton.json` together with the `.js` files, or host the JS files and use the HTTPS URLs in `ExcelExportButton.json`.
+- the contribution `.json`
+- `story-onclick.js`, HTML, CSS, README, tests
+- subfolders
+
+JSON `url` values must be `/filename.js`, not `https://YOUR-HOST/...` and not a path without the leading slash.
 
 ## Contents
 
 | File | Purpose |
 | --- | --- |
-| `sac-excel-export-widget/dist/ExcelExportButton.zip` | Ready-to-upload SAC custom widget package |
-| `sac-excel-export-widget/ExcelExportButton.json` | Widget contribution file (HTTPS host URLs; replace `YOUR-HOST`) |
-| `sac-excel-export-widget/ExcelExportButton-local.json` | Same widget, pointed at `http://localhost:8080` |
+| `sac-excel-export-widget/dist/ExcelExportButton.json` | Contribution JSON to upload first |
+| `sac-excel-export-widget/dist/ExcelExportButton-resources.zip` | Resource File zip to upload second |
+| `sac-excel-export-widget/ExcelExportButton-local.json` | Local HTTPS-server development JSON |
 | `sac-excel-export-widget/webcomponents/excel-export-button.js` | Main web component |
 | `sac-excel-export-widget/webcomponents/excel-export-styling.js` | Styling panel (button text, colors, file name) |
 | `sac-excel-export-widget/scripts/story-onclick.js` | Story / application `onClick` scripts to paste into SAC |
@@ -37,12 +49,7 @@ In SAC: **Stories** (or **Analytic Applications**) → **Custom Widgets** → up
 
 ## Host the widget files
 
-SAC loads the JavaScript from the URLs in the JSON file. Host this folder on HTTPS (production) with CORS enabled:
-
-- `Access-Control-Allow-Origin: *` (or your SAC tenant origin)
-- `Content-Type: application/javascript` for `.js` files
-
-Replace `https://YOUR-HOST/sac-excel-export-widget/...` in `ExcelExportButton.json` with your real base URL.
+Use the JSON + Resource File zip above for SAC-hosted widgets. External hosting is optional: serve the JavaScript over HTTPS with CORS and put full `https://...` URLs in a copy of the JSON. Do not mix those absolute URLs with a Resource File zip upload.
 
 Local development:
 
@@ -57,10 +64,11 @@ Upload `ExcelExportButton-local.json` while that server is running. Production t
 
 1. **Stories** → **Custom Widgets** (or **Analytic Applications** → **Custom Widgets**).
 2. Upload `ExcelExportButton.json`.
-3. Open an Optimized Story or Analytic Application.
-4. Insert **Excel Export Button** from the widget list.
-5. In the **Builder** panel, bind the same model you use on the table/chart and add the dimensions and measures to export.
-6. Resize the widget on the canvas so the button is visible.
+3. When SAC asks for **Resource File**, upload `ExcelExportButton-resources.zip`.
+4. Open an Optimized Story or Analytic Application.
+5. Insert **Excel Export Button** from the widget list.
+6. In the **Builder** panel, bind the same model you use on the table/chart and add the dimensions and measures to export.
+7. Resize the widget on the canvas so the button is visible.
 
 Optional: open **Styling** → **Custom Widget Additional Properties** to change the label, colors, file name, totals row, and whether click auto-exports.
 
