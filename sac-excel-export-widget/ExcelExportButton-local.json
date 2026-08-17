@@ -8,7 +8,6 @@
   "newInstancePrefix": "ExcelExportButton",
   "version": "1.0.0",
   "icon": "",
-  "supportsAutoResize": true,
   "webcomponents": [
     {
       "kind": "main",
